@@ -15,7 +15,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "hohoi"
 include(":app-hohoi")
-include(":feature:chat")
 include(":core:domain")
 include(":core:design")
 include(":core:common")
@@ -25,6 +24,7 @@ include(":core:dataSourceLocal:room")
 include(":core:dataSourceRemote:http")
 include(":core:testing")
 include(":core:model")
+include(":feature:chat")
 include(":feature:myPage")
 include(":feature:randomMatching")
 include(":feature:mapMatching")

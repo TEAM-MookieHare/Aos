@@ -34,6 +34,11 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:model"))
 
+    implementation(project(":feature:randomMatching"))
+    implementation(project(":feature:chat"))
+    implementation(project(":feature:mapMatching"))
+    implementation(project(":feature:myPage"))
+    
     testImplementation(project(":core:testing"))
 
     implementation(libs.androidx.core.splashscreen)
