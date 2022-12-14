@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.mookiehare.hohoi.feature.randommatching.RandomMatchingRoute
 
 const val randomMatchingNavigationRoute = "random_matching_route"
 
@@ -13,6 +14,6 @@ fun NavController.navigateToRandomMatching(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.randomMatchingScreen() {
     composable(route = randomMatchingNavigationRoute) {
-
+        RandomMatchingRoute()
     }
 }

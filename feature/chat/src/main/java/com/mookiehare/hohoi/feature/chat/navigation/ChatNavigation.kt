@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.mookiehare.hohoi.feature.chat.ChatRoute
 
 const val chatNavigationRoute = "chat_route"
 
@@ -13,6 +14,6 @@ fun NavController.navigateToChat(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.chatScreen() {
     composable(route = chatNavigationRoute) {
-
+        ChatRoute()
     }
 }

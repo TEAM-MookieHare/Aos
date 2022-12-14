@@ -50,7 +50,7 @@ fun RowScope.HoHoiNavigationBarItem(
     selectedIcon: @Composable () -> Unit = icon,
     enabled: Boolean = true,
     label: @Composable (() -> Unit)? = null,
-    alwaysShowLabel: Boolean = true
+    alwaysShowLabel: Boolean = false
 ) {
     NavigationBarItem(
         selected = selected,
