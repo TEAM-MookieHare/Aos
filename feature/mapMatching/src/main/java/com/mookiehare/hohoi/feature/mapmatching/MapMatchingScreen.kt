@@ -22,7 +22,7 @@ internal fun MapMatchingRoute(
 internal fun MapMatchingScreen(
     modifier: Modifier = Modifier,
 ) {
-    Text(text = "Hello Map Matching Screen!")
+    Text(text = "태양의 Map개발")
 }
 
 @Preview(showBackground = true)
