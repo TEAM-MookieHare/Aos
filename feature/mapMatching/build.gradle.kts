@@ -6,3 +6,9 @@ plugins {
 android {
     namespace = "com.mookiehare.hohoi.feature.mapmatching"
 }
+
+dependencies {
+
+    implementation(libs.maps.play.service)
+    implementation(libs.maps.compose)
+}

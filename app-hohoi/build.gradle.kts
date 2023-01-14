@@ -2,6 +2,7 @@ plugins {
     id("mookiehare.android.application")
     id("mookiehare.android.application.compose")
     id("mookiehare.android.hilt")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {

@@ -8,6 +8,9 @@ ksp = "1.7.21-1.0.8"
 hilt = "2.44.2"
 coil = "2.2.2"
 junit4 = "4.13.2"
+maps = "3.3.0"
+mapsCompose = "2.8.0"
+mapsecrets = "2.0.1"
 
 androidxCoreSplashscreen = "1.0.0"
 androidxAppCompat = "1.5.1"
@@ -69,6 +72,12 @@ coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
+maps-ktx-std = { module = "com.google.maps.android:maps-ktx", version.ref = "maps" }
+maps-ktx-utils = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "maps" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
+maps-utils = { module = "com.google.maps.android:android-maps-utils", version.require = "2.3.0" }
+maps-play-service = { module = "com.google.android.gms:play-services-maps", version.require = "18.1.0" }
+
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -81,3 +90,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+maps-secrets= { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsecrets" }
