@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.mookiehare.hohoi.core.design.icon.HoHoiIcons
+import com.mookiehare.hohoi.core.design.icon.HelloiIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,13 +43,13 @@ fun HoHoiTopAppBarPreview(){
         titleRes = android.R.string.unknownName,
         actions = listOf(
             TopAppBarAction(
-                actionIcon = HoHoiIcons.MoreVert,
+                actionIcon = HelloiIcons.MoreVert,
             ),
             TopAppBarAction(
-                actionIcon = HoHoiIcons.MoreVert,
+                actionIcon = HelloiIcons.MoreVert,
             ),
             TopAppBarAction(
-                actionIcon = HoHoiIcons.MoreVert,
+                actionIcon = HelloiIcons.MoreVert,
             )
         )
     )
