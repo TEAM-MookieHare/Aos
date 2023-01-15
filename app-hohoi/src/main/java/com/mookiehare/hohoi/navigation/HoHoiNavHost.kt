@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.mookiehare.hohoi.feature.chat.navigation.chatScreen
+import com.mookiehare.hohoi.feature.chat.navigation.navigateToChatDetail
 import com.mookiehare.hohoi.feature.mapmatching.navigation.mapMatchingScreen
 import com.mookiehare.hohoi.feature.mypage.navigation.myPageScreen
 import com.mookiehare.hohoi.feature.randommatching.navigation.randomMatchingNavigationRoute
@@ -26,7 +27,14 @@ fun HoHoiNavHost(
         modifier = modifier,
     ){
         randomMatchingScreen()
-        chatScreen()
+        chatScreen(
+            navigateToChatDetail = { chatDetailId ->
+                navController.navigateToChatDetail(chatDetailId)
+            },
+            nestedGraphs = {
+                // TODO: 카메라, 앨범 등 넣을것
+            }
+        )
         mapMatchingScreen()
         myPageScreen()
     }
