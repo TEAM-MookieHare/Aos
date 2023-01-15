@@ -1,5 +1,6 @@
 package com.mookiehare.hohoi.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,8 +9,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.mookiehare.hohoi.feature.chat.navigation.chatNavigationRoute
 import com.mookiehare.hohoi.feature.chat.navigation.navigateToChat
 import com.mookiehare.hohoi.feature.mapmatching.navigation.mapMatchingNavigationRoute
@@ -22,11 +23,12 @@ import com.mookiehare.hohoi.navigation.TopLevelDestination
 import com.mookiehare.hohoi.navigation.TopLevelDestination.*
 import kotlinx.coroutines.CoroutineScope
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberHoHoiAppState(
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberAnimatedNavController()
 ): HoHoiAppState {
     return remember (navController, coroutineScope, windowSizeClass) {
         HoHoiAppState(navController, coroutineScope, windowSizeClass)

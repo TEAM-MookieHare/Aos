@@ -1,8 +1,9 @@
 package com.mookiehare.hohoi.feature.chat.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.*
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import com.mookiehare.hohoi.feature.chat.chatDetail.ChatDetailRoute
 import com.mookiehare.hohoi.feature.chat.chatList.ChatListRoute
 
@@ -25,6 +26,7 @@ fun NavController.navigateToChatDetail(chatDetailId: String){
     this.navigate("$chatDetailNavigationRoute/$chatDetailId")
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.chatScreen(
     navigateToChatDetail: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
