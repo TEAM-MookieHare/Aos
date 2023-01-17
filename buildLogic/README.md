@@ -7,7 +7,14 @@
 1. [https://developer.squareup.com/blog/herding-elephants/](https://developer.squareup.com/blog/herding-elephants/)
 2. [https://github.com/jjohannes/idiomatic-gradle](https://github.com/jjohannes/idiomatic-gradle).
 
-`buildLogic`에 convetion plugins을 셋팅함으로써 
+왜 `buildSrc`를 사용을 안하는 이유는 한가지 큰 단점이 있습니다.
+(참고 URL : https://medium.com/bumble-tech/how-to-use-composite-builds-as-a-replacement-of-buildsrc-in-gradle-64ff99344b58)
+
+`buildSrc`는 내부 변경 사항 은 빌드 캐시를 완전히 무효화합니다.
+또한 사용 중인 인스턴스에서 원격 빌드 캐시를 무효화합니다. 
+작은 프로젝트에서는 실제로 문제가 되지 않지만 수백 개의 모듈이 있는 큰 프로젝트는 심하게 영향을 받습니다.
+
+따라서 `buildLogic`에 convetion plugins을 셋팅함으로써 
 `buildSrc` 디렉토리의 단점 없이 중복적인 build script setup, 지저분한 `subproject` 구성을 피할 수 있습니다.
 
 `buildLogic`은 [`settings.gradle.kts`](../settings.gradle.kts)에 구성된 대로 root에 포함된 build입니다

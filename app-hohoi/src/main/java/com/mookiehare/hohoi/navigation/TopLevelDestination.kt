@@ -1,6 +1,6 @@
 package com.mookiehare.hohoi.navigation
 
-import com.mookiehare.hohoi.core.design.icon.HoHoiIcons
+import com.mookiehare.hohoi.core.design.icon.HelloiIcons
 import com.mookiehare.hohoi.core.design.icon.Icon
 import com.mookiehare.hohoi.core.design.icon.Icon.ImageVectorIcon
 import com.mookiehare.hohoi.feature.randommatching.R as randommatchingR
@@ -15,26 +15,26 @@ enum class TopLevelDestination(
     val titleTextId: Int
 ) {
     RANDOM_MATCHING(
-        selectedIcon = ImageVectorIcon(HoHoiIcons.QuestionMark),
-        unselectedIcon = ImageVectorIcon(HoHoiIcons.QuestionMark),
+        selectedIcon = ImageVectorIcon(HelloiIcons.QuestionMark),
+        unselectedIcon = ImageVectorIcon(HelloiIcons.QuestionMark),
         iconTextId = randommatchingR.string.random,
         titleTextId = randommatchingR.string.random
     ),
     CHAT(
-        selectedIcon = ImageVectorIcon(HoHoiIcons.Chat),
-        unselectedIcon = ImageVectorIcon(HoHoiIcons.Chat),
+        selectedIcon = ImageVectorIcon(HelloiIcons.Chat),
+        unselectedIcon = ImageVectorIcon(HelloiIcons.Chat),
         iconTextId = chatR.string.chat,
         titleTextId = chatR.string.chat
     ),
     MAP_MATCHING(
-        selectedIcon = ImageVectorIcon(HoHoiIcons.Map),
-        unselectedIcon = ImageVectorIcon(HoHoiIcons.Map),
+        selectedIcon = ImageVectorIcon(HelloiIcons.Map),
+        unselectedIcon = ImageVectorIcon(HelloiIcons.Map),
         iconTextId = mapmatchingR.string.map,
         titleTextId = mapmatchingR.string.map
     ),
     MY_PAGE(
-        selectedIcon = ImageVectorIcon(HoHoiIcons.MyPage),
-        unselectedIcon = ImageVectorIcon(HoHoiIcons.MyPage),
+        selectedIcon = ImageVectorIcon(HelloiIcons.MyPage),
+        unselectedIcon = ImageVectorIcon(HelloiIcons.MyPage),
         iconTextId = mypageR.string.my_page,
         titleTextId = mypageR.string.my_page
     ),

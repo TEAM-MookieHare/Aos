@@ -5,12 +5,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
-object HoHoiIcons {
+object HelloiIcons {
     val MoreVert = Icons.Default.MoreVert
     val Map = Icons.Default.Map
     val QuestionMark = Icons.Default.QuestionMark
     val Chat = Icons.Default.ChatBubble
     val MyPage = Icons.Default.Person
+    val Person = Icons.Default.Person
 }
 
 /**
