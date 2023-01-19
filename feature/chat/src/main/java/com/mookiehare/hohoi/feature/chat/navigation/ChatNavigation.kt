@@ -1,9 +1,13 @@
 package com.mookiehare.hohoi.feature.chat.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.navigation
 import com.mookiehare.hohoi.feature.chat.chatDetail.ChatDetailRoute
 import com.mookiehare.hohoi.feature.chat.chatList.ChatListRoute
 
@@ -35,7 +39,9 @@ fun NavGraphBuilder.chatScreen(
         route = chatGraph,
         startDestination = chatNavigationRoute
     ) {
-        composable(route = chatNavigationRoute) {
+        composable(
+            route = chatNavigationRoute,
+        ) {
             ChatListRoute(navigateToChatDetail = navigateToChatDetail)
         }
 
@@ -43,7 +49,11 @@ fun NavGraphBuilder.chatScreen(
             route = "$chatDetailNavigationRoute/{$chatDetailIdArg}",
             arguments = listOf(
                 navArgument(chatDetailIdArg) { type = NavType.StringType }
-            )
+            ),
+            enterTransition = { scaleIn() },
+            exitTransition = { scaleOut() },
+            popEnterTransition = { scaleIn() },
+            popExitTransition = { scaleOut() }
         ) {
             ChatDetailRoute()
         }
