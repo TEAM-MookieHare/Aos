@@ -48,19 +48,17 @@ internal fun RandomMatchingScreen(
 fun RandomMatchingChips(
     elements : List<RandomChip>
 ){
-    HohoiTheme {
-        Surface {
-            LazyRow(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(elements.size){ index ->
-                    HelloiChip(
-                        selected = elements[index].isSelected.value,
-                        onSelectedChange = { checked -> elements[index].isSelected.value = checked }
-                    ) {
-                        Text(text = elements[index].text)
-                    }
+    Surface {
+        LazyRow(
+            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            items(elements.size){ index ->
+                HelloiChip(
+                    selected = elements[index].isSelected.value,
+                    onSelectedChange = { checked -> elements[index].isSelected.value = checked }
+                ) {
+                    Text(text = elements[index].text)
                 }
             }
         }
