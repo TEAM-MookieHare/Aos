@@ -24,30 +24,35 @@ import com.mookiehare.hohoi.feature.chat.model.Chat
 
 val chatDummyData = listOf(
     Chat(
+        id = "1",
         nickname = "곽하민",
         content = "[PLAY 꼼데가르송 RESTOCK]\n\n꾸준히 사랑받는 PLAY 꼼데가르송",
         receivedTime = "오후 5:01",
         profile = "https://static01.nyt.com/images/2014/08/24/arts/24GRANDE1/24JPGRANDE1-superJumbo.jpg",
     ),
     Chat(
+        id = "2",
         nickname = "김태양",
         content = "송금이 완료되었어요.\n\n- 일시 : 2023. 1. 15.(일) 17:11",
         receivedTime = "오후 5:11",
         profile = "https://img.danawa.com/prod_img/500000/147/615/img/14615147_1.jpg?shrink=330:330&_v=20220426173016",
     ),
     Chat(
+        id = "3",
         nickname = "강철",
         content = "(광고)신년맞이 음식 운세",
         receivedTime = "오후 5:21",
         profile = null,
     ),
     Chat(
+        id = "4",
         nickname = "이현묵",
         content = "(광고)아직 1+1 이벤트 참여 안했나요?",
         receivedTime = "오후 5:31",
         profile = "https://img.hankyung.com/photo/202209/03.31140810.1.jpg",
     ),
     Chat(
+        id = "5",
         nickname = "신현화",
         content = "(광고)스트레스 받을 땐?",
         receivedTime = "오후 5:41",
@@ -58,33 +63,42 @@ val chatDummyData = listOf(
 @Composable
 internal fun ChatListRoute(
     modifier: Modifier = Modifier,
-    viewModel: ChatListViewModel = hiltViewModel()
+    viewModel: ChatListViewModel = hiltViewModel(),
+    navigateToChatDetail: (String) -> Unit
 ) {
 
     ChatListScreen(
         modifier = modifier,
-        chatList = chatDummyData
+        chatList = chatDummyData,
+        navigateToChatDetail
     )
 }
 
 @Composable
 internal fun ChatListScreen(
     modifier: Modifier = Modifier,
-    chatList: List<Chat>
+    chatList: List<Chat>,
+    navigateToChatDetail: (String) -> Unit
 ) {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)){
-        items(chatList){ chat -> ChatListItem(chat = chat) }
+        items(chatList){ chat ->
+            ChatListItem(
+                chat = chat,
+                navigateToChatDetail = navigateToChatDetail
+            )
+        }
     }
 }
 
 @Composable
 internal fun ChatListItem(
     modifier: Modifier = Modifier,
-    chat: Chat
+    chat: Chat,
+    navigateToChatDetail: (String) -> Unit
 ) {
     Row(
         modifier = modifier
-            .clickable { }
+            .clickable { navigateToChatDetail(chat.id) }
             .fillMaxWidth()
             .padding(4.dp)
             .heightIn(max = 60.dp)
@@ -135,7 +149,10 @@ internal fun ChatListItem(
 @Composable
 fun ChatListItemPreview() {
     HohoiTheme {
-        ChatListItem(chat = chatDummyData[2])
+        ChatListItem(
+            chat = chatDummyData[2],
+            navigateToChatDetail = {}
+        )
     }
 }
 
@@ -143,6 +160,9 @@ fun ChatListItemPreview() {
 @Composable
 fun ChatScreenPreview() {
     HohoiTheme {
-        ChatListScreen(chatList = chatDummyData)
+        ChatListScreen(
+            chatList = chatDummyData,
+            navigateToChatDetail = {}
+        )
     }
 }
