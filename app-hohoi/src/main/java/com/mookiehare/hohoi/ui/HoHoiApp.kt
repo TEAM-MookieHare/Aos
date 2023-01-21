@@ -80,7 +80,7 @@ fun HoHoiApp(
 
                 modifier = Modifier
                     .padding(padding)
-                    .consumedWindowInsets(padding)
+                    .consumeWindowInsets(padding)
             )
         }
 
