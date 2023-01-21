@@ -2,8 +2,8 @@ package com.mookiehare.hohoi.feature.chat.chatDetail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,12 +22,9 @@ import com.mookiehare.hohoi.core.design.component.ImageProfile
 import com.mookiehare.hohoi.core.design.extensions.drawNinePatch
 import com.mookiehare.hohoi.core.design.theme.HohoiTheme
 import com.mookiehare.hohoi.feature.chat.R
-import com.mookiehare.hohoi.feature.chat.model.MyReplyForTextMessage
-import com.mookiehare.hohoi.feature.chat.model.MyTextMessage
-import com.mookiehare.hohoi.feature.chat.model.OtherReplyForTextMessage
-import com.mookiehare.hohoi.feature.chat.model.OtherTextMessage
+import com.mookiehare.hohoi.feature.chat.model.*
 
-val myTextMessageDummyData = MyTextMessage(
+val myTextMessageDummyData = MyText(
     id = "",
     content = "꽃이 예쁘게 피었네요.) ㅁㄴㅇㄹㅁㄴㅇㄹasdflkajsdlkfjasldkjflaksjdfasdflaksjdflkjasldkfjlaksjdfㅁㄴㅇ리ㅏㅁ너이ㅏ러ㅣㅏㅁ너이ㅏ러 ㅁ니ㅏ어리ㅏㅁ넝리ㅏㅓㅁ니ㅏ어리마ㅓㄴㅁ니ㅏ어리ㅏㅁ너이ㅏ러 만어ㅣ라ㅓㅁ니ㅏㅁㄴㅇ람,눙,룸,느울,ㅜㅁ미넝리머니아러ㅣㅏㅁ너ㅣ라ㅓㅣ마너 이라ㅓㅁ니ㅏㅇ ㅓ린마ㅓㅇ ㅣ럼니 ㅏㅓ리ㅏㅁ너 ㅣ라ㅓㅁ니아 ㅓ림나ㅓ ㅣ라머니 아러ㅣㅁ나ㅓㅇ ㅣ라머닝 ㅏㅓ림ㄴ ㅏ어리ㅏ너 ㅣㅇ라ㅓ미 나어리 ㅏㅓㅁ니아 ㅓㅣㅁ나ㅓㅇㄹ ㅣㅏ머니 아러미나ㅓㅇ 림너 아ㅣㄹ머니 ㅏㅇ러ㅣㅁ ㅏ넝ㄹ",
     isDelete = false,
@@ -35,7 +32,7 @@ val myTextMessageDummyData = MyTextMessage(
     sendTime = "오후 1:24"
 )
 
-val otherTextMessageDummyData = OtherTextMessage(
+val otherTextMessageDummyData = OtherText(
     id = "",
     nickname = "곽하민",
     profileUrl = "https://static01.nyt.com/images/2014/08/24/arts/24GRANDE1/24JPGRANDE1-superJumbo.jpg",
@@ -69,88 +66,113 @@ internal fun ChatDetailScreen(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         item {
-            MyTextMessage(myTextMessageDummyData)
+            Message(myTextMessageDummyData)
+        }
+        item {
+            Message(otherTextMessageDummyData)
         }
     }
 }
 
 @Composable
-fun MyTextMessage(message: MyTextMessage){
+fun Message(
+    message: Message
+){
     Row(
-        horizontalArrangement = Arrangement.End,
-        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = if(message is FromMy) Arrangement.End else Arrangement.Start,
         modifier = Modifier.fillMaxWidth()
     ) {
+        if(message is FromOther) {
+            ImageProfile(profileUrl = message.profileUrl)
+            Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
+        }
+
+        AuthorAndTextMessage(message = message)
+    }
+}
+
+@Composable
+fun AuthorAndTextMessage(
+    message: Message
+){
+    Column {
+        when(message) {
+            is FromOther -> {
+                Text(
+                    text = message.nickname,
+                    fontSize = ChatComponentStyle.normalFontSize
+                )
+
+                Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
+
+                when (message) {
+                    is OtherText -> OtherTextMessageBubble(message = message)
+                }
+            }
+
+            is FromMy -> {
+                when (message) {
+                    is MyText -> MyTextMessageBubble(message = message)
+                }
+            }
+        }
+    }
+}
+
+private val OtherChatBubbleShape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+private val MyChatBubbleShape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
+
+@Composable
+fun MyTextMessageBubble(
+    message: MyText,
+){
+    Row(verticalAlignment = Alignment.Bottom) {
+        Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
+
         Text(
             text = message.sendTime,
             fontSize = ChatComponentStyle.smallFontSize,
         )
 
-        Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
-
-        Text(
-            text = message.content,
-            modifier = Modifier
-                .drawNinePatch(
-                    drawable = ContextCompat.getDrawable(
-                        LocalContext.current,
-                        R.drawable.ic_chat_bubble_green
-                    )
-                )
-                .widthIn(max = ChatComponentStyle.maxWidth)
-                .padding(8.dp, 8.dp, 16.dp, 8.dp),
-            fontSize = ChatComponentStyle.mediumFontSize,
-            lineHeight = ChatComponentStyle.lineHeight
-        )
-        
+        Surface(
+            color = MaterialTheme.colorScheme.tertiary,
+            shape = MyChatBubbleShape
+        ) {
+            Text(
+                text = message.content,
+                modifier = Modifier
+                    .widthIn(max = ChatComponentStyle.maxWidth)
+                    .padding(16.dp, 8.dp, 8.dp, 8.dp),
+                style = MaterialTheme.typography.bodyLarge.copy(color = LocalContentColor.current),
+            )
+        }
     }
 }
 
 @Composable
-fun OtherTextMessage(message: OtherTextMessage){
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        ImageProfile(profileUrl = message.profileUrl)
+fun OtherTextMessageBubble(
+    message: OtherText,
+){
+    Row(verticalAlignment = Alignment.Bottom) {
+        Surface(
+            color = MaterialTheme.colorScheme.primary,
+            shape = OtherChatBubbleShape
+        ) {
+            Text(
+                text = message.content,
+                modifier = Modifier
+                    .widthIn(max = ChatComponentStyle.maxWidth)
+                    .padding(16.dp, 8.dp, 8.dp, 8.dp),
+                style = MaterialTheme.typography.bodyLarge.copy(color = LocalContentColor.current),
+            )
+        }
 
         Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
 
-        Column {
-            Row {
-                Text(
-                    text = message.nickname,
-                    fontSize = ChatComponentStyle.normalFontSize
-                )
-            }
-
-            Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
-
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text(
-                    text = message.content,
-                    modifier = Modifier
-                        .drawNinePatch(
-                            drawable = ContextCompat.getDrawable(
-                                LocalContext.current,
-                                R.drawable.ic_chat_bubble
-                            )
-                        )
-                        .widthIn(max = ChatComponentStyle.maxWidth)
-                        .padding(16.dp, 8.dp, 8.dp, 8.dp),
-                    color = Color.White,
-                    fontSize = ChatComponentStyle.mediumFontSize,
-                    lineHeight = ChatComponentStyle.lineHeight
-                )
-
-                Spacer(modifier = Modifier.padding(ChatComponentStyle.smallSpacing))
-
-                Text(
-                    text = message.sendTime,
-                    fontSize = ChatComponentStyle.smallFontSize,
-                )
-            }
-        }
-
+        Text(
+            text = message.sendTime,
+            fontSize = ChatComponentStyle.smallFontSize,
+        )
     }
 }
 
@@ -168,7 +190,7 @@ private object ChatComponentStyle {
 @Composable
 fun OtherTextMessagePreview(){
     HohoiTheme {
-        OtherTextMessage(otherTextMessageDummyData)
+        Message(otherTextMessageDummyData)
     }
 }
 
@@ -176,7 +198,7 @@ fun OtherTextMessagePreview(){
 @Composable
 fun MyTextMessagePreview(){
     HohoiTheme {
-        MyTextMessage(myTextMessageDummyData)
+        Message(myTextMessageDummyData)
     }
 }
 

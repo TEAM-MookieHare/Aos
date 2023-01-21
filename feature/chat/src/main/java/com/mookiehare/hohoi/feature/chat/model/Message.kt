@@ -2,20 +2,31 @@ package com.mookiehare.hohoi.feature.chat.model
 
 sealed class Message()
 
-data class MyTextMessage(
-    val id: String,
-    val content: String,
-    val isDelete: Boolean,
-    val isReport: Boolean,
-    val sendTime: String,
+sealed class FromMy(): Message()
+
+sealed class FromOther(
+    open val nickname: String,
+    open val profileUrl: String?,
 ): Message()
 
-data class OtherTextMessage(
+data class MyText(
     val id: String,
-    val nickname: String,
-    val profileUrl: String?,
     val content: String,
     val isDelete: Boolean,
     val isReport: Boolean,
     val sendTime: String,
-): Message()
+): FromMy(
+)
+
+data class OtherText(
+    val id: String,
+    override val nickname: String,
+    override val profileUrl: String?,
+    val content: String,
+    val isDelete: Boolean,
+    val isReport: Boolean,
+    val sendTime: String,
+): FromOther(
+    nickname = nickname,
+    profileUrl = profileUrl
+)
