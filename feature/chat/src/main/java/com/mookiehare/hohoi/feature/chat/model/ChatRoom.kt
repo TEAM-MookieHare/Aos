@@ -1,6 +1,6 @@
 package com.mookiehare.hohoi.feature.chat.model
 
-data class Chat(
+data class ChatRoom(
     val id: String,
     val nickname: String,
     val content: String,

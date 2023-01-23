@@ -1,9 +1,6 @@
 package com.mookiehare.hohoi.feature.chat.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
@@ -41,6 +38,10 @@ fun NavGraphBuilder.chatScreen(
     ) {
         composable(
             route = chatNavigationRoute,
+            enterTransition = { scaleIn() },
+            exitTransition = { scaleOut() },
+            popEnterTransition = { scaleIn() },
+            popExitTransition = { scaleOut() }
         ) {
             ChatListRoute(navigateToChatDetail = navigateToChatDetail)
         }
