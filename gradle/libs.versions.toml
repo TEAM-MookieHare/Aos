@@ -13,6 +13,7 @@ mapsCompose = "2.8.0"
 mapsecrets = "2.0.1"
 
 accompanist = "0.29.0-alpha"
+accompanistPermissionsVersion = "0.23.1"
 
 androidxCoreSplashscreen = "1.0.0"
 androidxAppCompat = "1.5.1"
@@ -80,6 +81,9 @@ maps-ktx-utils = { module = "com.google.maps.android:maps-utils-ktx", version.re
 maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
 maps-utils = { module = "com.google.maps.android:android-maps-utils", version.require = "2.3.0" }
 maps-play-service = { module = "com.google.android.gms:play-services-maps", version.require = "18.1.0" }
+maps-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
+location-play-service = { module = "com.google.android.gms:play-services-location", version.require = "21.0.1" }
+
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
