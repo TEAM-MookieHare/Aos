@@ -15,16 +15,10 @@ class MapMatchingViewModel @Inject constructor(
 
 ): ViewModel() {
 
-    private val _lastSelectedLocation = MutableStateFlow(getInitialLocation())
+    private val _lastSelectedLocation = MutableStateFlow(Location(0.0, 0.0))
     val lastSelectedLocation = _lastSelectedLocation.asStateFlow()
 
-    fun getInitialLocation(): Location =
-        Location(
-            lat = 0.0,
-            lng = 0.0
-        )
-
-    fun setLocation(loc: Location) {
+    private fun setLocation(loc: Location) {
         _lastSelectedLocation.value = loc
     }
 

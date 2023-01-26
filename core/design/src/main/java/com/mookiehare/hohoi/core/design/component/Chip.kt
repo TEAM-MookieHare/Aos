@@ -3,6 +3,7 @@ package com.mookiehare.hohoi.core.design.component
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -66,3 +67,8 @@ object HelloiChipDefault{
     const val DisabledChipContentAlpha = 0.38f
     val ChipBorderWidth = 1.dp
 }
+
+data class RandomChip (
+    val text : String = "",
+    var isSelected : MutableState<Boolean>
+)

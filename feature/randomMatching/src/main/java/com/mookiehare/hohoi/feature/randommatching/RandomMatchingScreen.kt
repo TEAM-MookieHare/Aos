@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mookiehare.hohoi.core.design.component.HelloiChip
 import com.mookiehare.hohoi.core.design.theme.HohoiTheme
-import com.mookiehare.hohoi.feature.randommatching.model.RandomChip
+import com.mookiehare.hohoi.core.design.component.RandomChip
 
 
 @Composable
