@@ -68,7 +68,7 @@ private object HelloiChipDefault{
     val ChipBorderWidth = 1.dp
 }
 
-data class RandomChip (
+data class Chip (
     val text : String = "",
     var isSelected : MutableState<Boolean>
 )

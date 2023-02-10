@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mookiehare.hohoi.core.design.component.HelloiChip
 import com.mookiehare.hohoi.core.design.theme.HohoiTheme
-import com.mookiehare.hohoi.core.design.component.RandomChip
+import com.mookiehare.hohoi.core.design.component.Chip
 
 
 @Composable
@@ -28,14 +28,14 @@ internal fun RandomMatchingRoute(
 }
 val chipsDummyData  =
         listOf(
-            RandomChip("남자", mutableStateOf(value = false)),
-            RandomChip("여자", mutableStateOf(value = false)),
-            RandomChip("애견", mutableStateOf(value = false)),
-            RandomChip("독서", mutableStateOf(value = false)),
-            RandomChip("애견", mutableStateOf(value = false)),
-            RandomChip("외국인", mutableStateOf(value = false)),
-            RandomChip("산책", mutableStateOf(value = false)),
-            RandomChip("맛집탐방", mutableStateOf(value = false))
+            Chip("남자", mutableStateOf(value = false)),
+            Chip("여자", mutableStateOf(value = false)),
+            Chip("애견", mutableStateOf(value = false)),
+            Chip("독서", mutableStateOf(value = false)),
+            Chip("애견", mutableStateOf(value = false)),
+            Chip("외국인", mutableStateOf(value = false)),
+            Chip("산책", mutableStateOf(value = false)),
+            Chip("맛집탐방", mutableStateOf(value = false))
         )
 
 @Composable
@@ -47,7 +47,7 @@ internal fun RandomMatchingScreen(
 
 @Composable
 fun RandomMatchingChips(
-    elements : List<RandomChip>
+    elements : List<Chip>
 ){
     Surface(
         color = Color.Transparent
