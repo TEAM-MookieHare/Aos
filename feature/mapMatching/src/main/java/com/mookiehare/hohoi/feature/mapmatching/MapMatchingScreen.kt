@@ -26,22 +26,21 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import com.mookiehare.hohoi.core.design.component.HelloiChip
 import com.mookiehare.hohoi.core.design.theme.HohoiTheme
-import kotlinx.coroutines.launch
 import com.google.maps.android.clustering.ClusterManager
-import com.mookiehare.hohoi.core.design.component.RandomChip
+import com.mookiehare.hohoi.core.design.component.Chip
 import com.mookiehare.hohoi.feature.mapmatching.model.Location
 import com.mookiehare.hohoi.feature.mapmatching.model.MarkerItem
 
 val chipsDummyData  =
     listOf(
-        RandomChip("남자", mutableStateOf(value = false)),
-        RandomChip("여자", mutableStateOf(value = false)),
-        RandomChip("애견", mutableStateOf(value = false)),
-        RandomChip("독서", mutableStateOf(value = false)),
-        RandomChip("애견", mutableStateOf(value = false)),
-        RandomChip("외국인", mutableStateOf(value = false)),
-        RandomChip("산책", mutableStateOf(value = false)),
-        RandomChip("맛집탐방", mutableStateOf(value = false))
+        Chip("남자", mutableStateOf(value = false)),
+        Chip("여자", mutableStateOf(value = false)),
+        Chip("애견", mutableStateOf(value = false)),
+        Chip("독서", mutableStateOf(value = false)),
+        Chip("애견", mutableStateOf(value = false)),
+        Chip("외국인", mutableStateOf(value = false)),
+        Chip("산책", mutableStateOf(value = false)),
+        Chip("맛집탐방", mutableStateOf(value = false))
     )
 
 @Composable
@@ -158,7 +157,7 @@ internal fun MapMatchingScreen(
 
 @Composable
 fun RandomMatchingChips(
-    elements : List<RandomChip>
+    elements : List<Chip>
 ){
     HohoiTheme {
         Surface(color = Color.Transparent) {

@@ -62,13 +62,13 @@ fun HelloiChip(
     )
 }
 
-object HelloiChipDefault{
+private object HelloiChipDefault{
     const val DisabledChipContainerAlpha = 0.12f
     const val DisabledChipContentAlpha = 0.38f
     val ChipBorderWidth = 1.dp
 }
 
-data class RandomChip (
+data class Chip (
     val text : String = "",
     var isSelected : MutableState<Boolean>
 )
