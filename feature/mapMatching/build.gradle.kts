@@ -14,4 +14,5 @@ dependencies {
     implementation(libs.maps.compose)
     implementation(libs.maps.permissions)
     implementation(libs.location.play.service)
+    implementation("androidx.compose.material:material:1.3.1")
 }
