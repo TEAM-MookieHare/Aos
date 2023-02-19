@@ -30,6 +30,16 @@ import com.google.maps.android.clustering.ClusterManager
 import com.mookiehare.hohoi.core.design.component.Chip
 import com.mookiehare.hohoi.feature.mapmatching.model.Location
 import com.mookiehare.hohoi.feature.mapmatching.model.MarkerItem
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+
+
 
 val chipsDummyData  =
     listOf(
@@ -51,11 +61,11 @@ internal fun MapMatchingRoute(
 
     val items = remember { mutableStateListOf<MarkerItem>() }
     items.clear()
-    items.add(MarkerItem(LatLng(37.5480947960,126.87617507), "Marker", "Snippet"))
-    items.add(MarkerItem(LatLng(37.548347622,126.87715100), "Marker", "Snippet"))
-    items.add(MarkerItem(LatLng(37.548147622,126.87715100), "Marker", "Snippet"))
-    items.add(MarkerItem(LatLng(37.548547622,126.87715100), "Marker", "Snippet"))
-//    items.add(MarkerItem(LatLng(37.548247622,126.87715100), "Marker", "Snippet"))
+    items.add(MarkerItem(LatLng(37.5480947960,126.87617507), "태양", "test1"))
+    items.add(MarkerItem(LatLng(37.548347622,126.87715100), "현화", "test2"))
+    items.add(MarkerItem(LatLng(37.548147622,126.87715100), "현묵", "test3"))
+    items.add(MarkerItem(LatLng(37.548547622,126.87715100), "강철", "test4"))
+    items.add(MarkerItem(LatLng(37.548247622,126.87715100), "하민", "test5"))
 
     val locationState by viewModel.lastSelectedLocation.collectAsStateWithLifecycle()
     
@@ -67,13 +77,17 @@ internal fun MapMatchingRoute(
     )
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(
+    ExperimentalPermissionsApi::class,
+    ExperimentalMaterialApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 internal fun MapMatchingScreen(
     modifier: Modifier = Modifier,
     viewModel: MapMatchingViewModel = hiltViewModel(),
     items: List<MarkerItem> = listOf(),
-    location: Location
+    location: Location = Location(0.0, 0.0)
 ) {
 
     val activity = LocalView.current.context as Activity
@@ -84,7 +98,8 @@ internal fun MapMatchingScreen(
         )
     )
 
-    val cameraPositionState = rememberCameraPositionState()
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         multiplePermissionState.launchMultiplePermissionRequest()
@@ -97,62 +112,86 @@ internal fun MapMatchingScreen(
     ){
         viewModel.getCurrentLocation(activity)
 
-        LaunchedEffect(location) {
-            cameraPositionState.animate(
-                CameraUpdateFactory.newCameraPosition(
-                    CameraPosition.fromLatLngZoom(
-                        LatLng(
-                            location.lat,
-                            location.lng
-                        ), 15f)),
-                1_000)
+        if(location.lat != 0.0 && location.lng != 0.0){
+
+            val cameraPositionState = rememberCameraPositionState {
+                position = CameraPosition.fromLatLngZoom(LatLng(
+                    location.lat,
+                    location.lng
+                ), 17f)
+            }
+
+            GoogleMap(
+                modifier = modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState,
+                properties = MapProperties(isMyLocationEnabled = true)
+            ) {
+                rememberMarkerState()
+                val context = LocalContext.current
+                var clusterManager by remember { mutableStateOf<ClusterManager<MarkerItem>?>(null) }.apply {
+                    this.value?.setOnClusterClickListener {
+                        coroutineScope.launch {
+                            sheetState.show()
+                        }
+                        return@setOnClusterClickListener false
+                    }
+                    this.value?.setOnClusterItemClickListener{
+                        coroutineScope.launch {
+                            sheetState.show()
+                        }
+                        return@setOnClusterItemClickListener false
+                    }
+                }
+                MapEffect(items) { map ->
+                    if (clusterManager == null) {
+                        clusterManager = ClusterManager<MarkerItem>(context, map)
+                    }
+                    clusterManager?.addItems(items)
+
+                }
+                LaunchedEffect(key1 = cameraPositionState.isMoving) {
+                    if (!cameraPositionState.isMoving) {
+                        clusterManager?.onCameraIdle()
+                    }
+                }
+            }
+
         }
 
-        GoogleMap(
-            modifier = modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState,
-            properties = MapProperties(isMyLocationEnabled = true)
+        RandomMatchingChips(
+            elements = chipsDummyData
+        )
+
+        ModalBottomSheetLayout(
+            sheetState = sheetState,
+            sheetContent = { BottomSheet(items) },
         ) {
-            rememberMarkerState()
-            val context = LocalContext.current
-            var clusterManager by remember { mutableStateOf<ClusterManager<MarkerItem>?>(null) }
-            MapEffect(items) { map ->
-                if (clusterManager == null) {
-                    clusterManager = ClusterManager<MarkerItem>(context, map)
-                }
-                clusterManager?.addItems(items)
-            }
-            LaunchedEffect(key1 = cameraPositionState.isMoving) {
-                if (!cameraPositionState.isMoving) {
-                    clusterManager?.onCameraIdle()
-                }
-            }
-        }
-
-        Column {
-
             Surface(
                 shape = MaterialTheme.shapes.medium,
                 shadowElevation = 1.dp,
                 modifier = Modifier
                     .animateContentSize()
-                    .padding(1.dp)
+                    .padding(1.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        if (sheetState.isVisible) sheetState.hide()
+                        else sheetState.show()
+                    }
+                }
             ) {
                 Text(
-                    text = "${items.size}명이 주변에 있어요!",
+                    text = "${items.size}명이 사용하고 있어요!",
                     modifier = Modifier.padding(all = 4.dp),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            RandomMatchingChips(elements = chipsDummyData)
         }
-
-
-
     }
+
+    BackHandler(sheetState.isVisible) {
+        coroutineScope.launch { sheetState.hide() }
+    }
+
 }
 
 @Composable
@@ -160,7 +199,10 @@ fun RandomMatchingChips(
     elements : List<Chip>
 ){
     HohoiTheme {
-        Surface(color = Color.Transparent) {
+        Surface(
+            color = Color.Transparent,
+            modifier = Modifier.padding(top = 50.dp)
+        ) {
             LazyRow(
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -178,10 +220,47 @@ fun RandomMatchingChips(
     }
 }
 
+@Composable
+fun BottomSheet(messages: List<MarkerItem>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(top = 30.dp)
+    ) {
+        items(messages) { message ->
+            MessageCard(message)
+        }
+    }
+}
+
+@Composable
+fun MessageCard(msg: MarkerItem) {
+    Column(
+        modifier = Modifier.padding(6.dp)
+    ) {
+//        Image(
+//            painter = painterResource(id = R.drawable.ic_launcher_background),
+//            contentDescription = null,
+//            modifier = Modifier
+//                .size(40.dp)
+//                .clip(CircleShape)
+//                .border(1.5.dp, androidx.compose.material.MaterialTheme.colors.secondary, CircleShape)
+//        )
+
+        Text(
+            text = msg.itemTitle,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = msg.itemSnippet,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun MapMatchingScreenPreview() {
     HohoiTheme {
-//        MapMatchingScreen()
+        MapMatchingScreen()
     }
 }
