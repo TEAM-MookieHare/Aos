@@ -38,7 +38,7 @@ import androidx.compose.material.*
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-
+import kotlinx.coroutines.launch
 
 
 val chipsDummyData  =
@@ -158,9 +158,16 @@ internal fun MapMatchingScreen(
 
         }
 
-        RandomMatchingChips(
-            elements = chipsDummyData
-        )
+        HohoiTheme {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.padding(top = 50.dp)
+            ) {
+                HelloiChip(
+                    elements = chipsDummyData
+                )
+            }
+        }
 
         ModalBottomSheetLayout(
             sheetState = sheetState,
@@ -192,32 +199,6 @@ internal fun MapMatchingScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-}
-
-@Composable
-fun RandomMatchingChips(
-    elements : List<Chip>
-){
-    HohoiTheme {
-        Surface(
-            color = Color.Transparent,
-            modifier = Modifier.padding(top = 50.dp)
-        ) {
-            LazyRow(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(elements.size){ index ->
-                    HelloiChip(
-                        selected = elements[index].isSelected.value,
-                        onSelectedChange = { checked -> elements[index].isSelected.value = checked }
-                    ) {
-                        Text(text = elements[index].text)
-                    }
-                }
-            }
-        }
-    }
 }
 
 @Composable
