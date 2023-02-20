@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
@@ -38,7 +36,7 @@ import androidx.compose.material.*
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-
+import kotlinx.coroutines.launch
 
 
 val chipsDummyData  =
@@ -68,7 +66,7 @@ internal fun MapMatchingRoute(
     items.add(MarkerItem(LatLng(37.548247622,126.87715100), "하민", "test5"))
 
     val locationState by viewModel.lastSelectedLocation.collectAsStateWithLifecycle()
-    
+
     MapMatchingScreen(
         modifier = modifier,
         viewModel,
@@ -158,9 +156,16 @@ internal fun MapMatchingScreen(
 
         }
 
-        RandomMatchingChips(
-            elements = chipsDummyData
-        )
+        HohoiTheme {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.padding(top = 50.dp)
+            ) {
+                HelloiChip(
+                    elements = chipsDummyData
+                )
+            }
+        }
 
         ModalBottomSheetLayout(
             sheetState = sheetState,
@@ -192,32 +197,6 @@ internal fun MapMatchingScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-}
-
-@Composable
-fun RandomMatchingChips(
-    elements : List<Chip>
-){
-    HohoiTheme {
-        Surface(
-            color = Color.Transparent,
-            modifier = Modifier.padding(top = 50.dp)
-        ) {
-            LazyRow(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(elements.size){ index ->
-                    HelloiChip(
-                        selected = elements[index].isSelected.value,
-                        onSelectedChange = { checked -> elements[index].isSelected.value = checked }
-                    ) {
-                        Text(text = elements[index].text)
-                    }
-                }
-            }
-        }
-    }
 }
 
 @Composable
