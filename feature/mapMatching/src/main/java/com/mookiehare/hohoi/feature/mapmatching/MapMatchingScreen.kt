@@ -90,6 +90,7 @@ internal fun MapMatchingScreen(
     location: Location = Location(0.0, 0.0)
 ) {
 
+
     val activity = LocalView.current.context as Activity
     val multiplePermissionState = rememberMultiplePermissionsState(
         permissions = listOf(
