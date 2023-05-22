@@ -69,11 +69,11 @@ val chipsDummyData  =
     )
 val usersDummyData =
     listOf(
-        User(1,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH_z--yRvoZXEihHIsAJ6yux5UecyBcX8lew&usqp=CAU","신현화","안녕하세요~ 저는 팔방미인입니다. 저와 친해지고 싶지 않으세요?","27세","서울특별시 양천구"),
-        User(2,"","강철","하하하 저는 강한 남자 강!철!입니다.","29세","서울특별시 영등포구"),
-        User(3,"","곽하민","저는 짱 귀여운 강아지가 있어요. 같이 산책해요~","29세","인천광역시 제물포"),
-        User(4,"","김태양","태양같이 빛나는 남자 김태양입니다. ","29세","서울특별시 강서구"),
-        User(5,"","이현묵","안녕하세요 저는 요리하는 걸 좋아하고 잘해요! 저랑 같이 요리하실 분 ~~ 크림파스타에 스테이크 어때요!","29세","서울특별시 마포구"),
+        User(1,"https://thumbnews.nateimg.co.kr/view610///news.nateimg.co.kr/orgImg/my/2022/09/07/202209061020303458_1.jpg","신현화","안녕하세요~ 저는 팔방미인입니다. 저와 친해지고 싶지 않으세요?","27세","서울특별시 양천구"),
+        User(2,"https://4.bp.blogspot.com/-NnAkV5vpYuw/XNMYF4RtLvI/AAAAAAAAI70/kdgLm3cnTO4FB4rUC0v9smscN3zHJPlLgCLcBGAs/s1600/Jetpack_logo%2B%25282%2529.png","강철","하하하 저는 강한 남자 강!철!입니다.","29세","서울특별시 영등포구"),
+        User(3,"https://velog.velcdn.com/images/workspace/post/242af9e8-77be-432f-b1f3-71eff291b781/android-jetpack-header.png","곽하민","저는 짱 귀여운 강아지가 있어요. 같이 산책해요~","29세","인천광역시 제물포"),
+        User(4,"https://www.iconsdb.com/icons/preview/green/android-6-xxl.png","김태양","태양같이 빛나는 남자 김태양입니다. ","29세","서울특별시 강서구"),
+        User(5,"https://mblogthumb-phinf.pstatic.net/MjAxODA5MDFfMTIy/MDAxNTM1NzgyMDc5NDE4.Wi3qOK3vWmn5eGSpkJNVF8yDWJmYvHntt2XZCE60y6Yg.ncg9TnaCQmoA5SHkmfo4inEatxpeUwtPAERZn-vgNhYg.PNG.qbxlvnf11/7b5e56_d42a0c16a2e64a72b0221462c555f818-mv2.png?type=w800","이현묵","안녕하세요 저는 요리하는 걸 좋아하고 잘해요! 저랑 같이 요리하실 분 ~~ 크림파스타에 스테이크 어때요!","29세","서울특별시 마포구"),
     )
 
 @Composable
@@ -90,51 +90,28 @@ internal fun RandomMatchingScreen(
 fun RandomMatchingChips(
     elements : List<Chip>
 ){
-    HohoiTheme {
-        Surface {
-            LazyRow(
-                modifier = Modifier.padding(10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(elements.size){ index ->
-                    HelloiChip(
-                        selected = elements[index].isSelected.value,
-                        onSelectedChange = { checked -> elements[index].isSelected.value = checked }
-                    ) {
-                        Text(text = elements[index].text)
-                    }
+    Surface {
+        LazyRow(
+            modifier = Modifier.padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            items(elements.size){ index ->
+                HelloiChip(
+                    selected = elements[index].isSelected.value,
+                    onSelectedChange = { checked -> elements[index].isSelected.value = checked }
+                ) {
+                    Text(text = elements[index].text)
                 }
             }
         }
     }
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RandomMatchingCard(
     elements : List<User>
 ){
-//    val lazyListState = rememberLazyListState()
-//
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//            .padding(top = 30.dp, bottom = 50.dp),
-//        contentAlignment = Alignment.Center
-//    ){
-//        LazyRow(
-//            state = lazyListState,
-//            flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
-//        ){
-//            items(elements.size, key = {it}){ index ->
-//                UserCard( user = elements[index] )
-//            }
-//        }
-//    }
-
-    var order by remember { mutableStateOf(List(elements.size, init = {it})) }
+    var order by remember { mutableStateOf( List(elements.size, init = {it}) ) }
 
     Box(
         Modifier
@@ -143,17 +120,15 @@ fun RandomMatchingCard(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        elements.forEachIndexed { idx, user ->
+        elements.forEachIndexed { index, user ->
             SwipeAnimateCard(
                 user = user,
-                order = order[idx],
+                order = order[index],
                 totalCount = elements.size,
                 onSwipe = {
                     val newOrder = order.toMutableList()
                     Collections.rotate(newOrder, 1)
 
-                    //remove
-                    //newOrder.removeAt(idx)
                     order = newOrder.toList()
                 }
             )
@@ -229,7 +204,7 @@ fun UserCard(
                     )
                 }
                 //user simple introduce
-                // -> 2줄 이내로 입력 받을 것 이지만 maxLine =2  처리.
+                // -> 2줄 이내로 입력 받을 것 이지만 maxLine =2 로 방어.
                 Text(
                     text = user.introduce,
                     modifier = Modifier
@@ -301,11 +276,11 @@ fun Modifier.swipeToBack(
                 val targetOffsetY = decay.calculateTargetValue(offsetY.value, velocity)
 
                 if (targetOffsetY.absoluteValue <= size.height) {
-                    // Not enough velocity; Reset.
+                    // Not enough velocity -> reset
                     launch { offsetY.animateTo(targetValue = 0f, initialVelocity = velocity) }
                     launch { rotation.animateTo(targetValue = 0f, initialVelocity = velocity) }
                 } else {
-                    // Enough velocity to fling the card to the back
+                    // Enough velocity -> fling the card to the back
                     val boomerangDuration = 600
                     val maxDistanceToFling = (size.height * 4).toFloat()
                     val maxRotations = 3

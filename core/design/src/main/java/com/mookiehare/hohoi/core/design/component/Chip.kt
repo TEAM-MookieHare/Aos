@@ -1,8 +1,5 @@
 package com.mookiehare.hohoi.core.design.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -24,57 +21,48 @@ import androidx.compose.ui.unit.dp
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun HelloiChip(
-    elements : List<Chip>,
+    selected : Boolean,
+    onSelectedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    enabled : Boolean = true
+    enabled : Boolean = true,
+    label : @Composable () -> Unit
 ){
-    Surface(
-        color = Color.Transparent
-    ) {
-        LazyRow(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            items(elements.size){ index ->
-                FilterChip(
-                    selected = elements[index].isSelected.value,
-                    onClick = { elements[index].isSelected.value = !elements[index].isSelected.value },
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
-                            Text(text = elements[index].text)
-                        }
-                    },
-                    modifier = modifier,
-                    enabled = enabled,
-                    shape = CircleShape,
-                    border = FilterChipDefaults.filterChipBorder(
-                        borderColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        selectedBorderWidth = HelloiChipDefault.ChipBorderWidth,
-                        disabledBorderColor = MaterialTheme.colorScheme.onBackground.copy(
-                            alpha = HelloiChipDefault.DisabledChipContentAlpha
-                        ),
-                        disabledSelectedBorderColor = MaterialTheme.colorScheme.onBackground.copy(
-                            alpha = HelloiChipDefault.DisabledChipContentAlpha
-                        )
-                    ),
-                    colors = FilterChipDefaults.filterChipColors(
-                        labelColor = MaterialTheme.colorScheme.onBackground,
-                        selectedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        selectedLabelColor = Color.White,
-                        disabledContainerColor = if (elements[index].isSelected.value){
-                            MaterialTheme.colorScheme.onBackground.copy( alpha = HelloiChipDefault.DisabledChipContainerAlpha )
-                        }else{
-                            Color.Transparent
-                        },
-                        disabledLabelColor = MaterialTheme.colorScheme.onBackground.copy( alpha = HelloiChipDefault.DisabledChipContentAlpha )
-                    )
-                )
+    FilterChip(
+        selected = selected,
+        onClick = { onSelectedChange(!selected) },
+        label = {
+            ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
+                label()
             }
-        }
-    }
+        },
+        modifier = modifier,
+        enabled = enabled,
+        shape = CircleShape,
+        border = FilterChipDefaults.filterChipBorder(
+            borderColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            selectedBorderWidth = HelloiChipDefault.ChipBorderWidth,
+            disabledBorderColor = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = HelloiChipDefault.DisabledChipContentAlpha
+            ),
+            disabledSelectedBorderColor = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = HelloiChipDefault.DisabledChipContentAlpha
+            )
+        ),
+        colors = FilterChipDefaults.filterChipColors(
+            labelColor = MaterialTheme.colorScheme.onBackground,
+            selectedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            selectedLabelColor = Color.White,
+            disabledContainerColor = if (selected){
+                MaterialTheme.colorScheme.onBackground.copy( alpha = HelloiChipDefault.DisabledChipContainerAlpha )
+            }else{
+                Color.Transparent
+            },
+            disabledLabelColor = MaterialTheme.colorScheme.onBackground.copy( alpha = HelloiChipDefault.DisabledChipContentAlpha )
+        )
+    )
 }
 
-private object HelloiChipDefault{
+object HelloiChipDefault{
     const val DisabledChipContainerAlpha = 0.12f
     const val DisabledChipContentAlpha = 0.38f
     val ChipBorderWidth = 1.dp
