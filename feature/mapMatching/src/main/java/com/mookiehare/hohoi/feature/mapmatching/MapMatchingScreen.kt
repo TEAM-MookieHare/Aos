@@ -156,10 +156,10 @@ internal fun MapMatchingScreen(
 
         }
 
-        HelloiChip(
-            elements = chipsDummyData,
-            modifier = Modifier.padding(top = 50.dp)
-        )
+//        HelloiChip(
+//            elements = chipsDummyData,
+//            modifier = Modifier.padding(top = 50.dp)
+//        )
 
         ModalBottomSheetLayout(
             sheetState = sheetState,
