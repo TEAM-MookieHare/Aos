@@ -10,4 +10,5 @@ android {
 
 dependencies {
     testImplementation(project(":core:testing"))
+    implementation(libs.kotlin.serialization.json)
 }

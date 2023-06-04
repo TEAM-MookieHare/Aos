@@ -28,4 +28,4 @@ include(":feature:chat")
 include(":feature:myPage")
 include(":feature:randomMatching")
 include(":feature:mapMatching")
-
+include(":core:dataSourceRemote:rsocket")
